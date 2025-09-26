@@ -1,0 +1,103 @@
+/* Heidi Wang 2025 04 10 Thu */
+
+body {
+  background-color: hsl(285, 100%, 95%);
+  color: hsl(285, 70%, 21%);
+  font-family: "PT Serif", serif;
+  margin: auto;
+}
+
+/* table */
+
+table {
+  width: 100%;
+  margin: 2% auto;
+}
+
+td {
+  padding: 1%;
+}
+
+/* home-tiles */
+
+.home-tiles {
+  /* margin: 0% 2%; */
+  display: flex;
+  justify-content: center;
+}
+
+.home-tiles article {
+  margin: 4%;
+}
+
+.home-tiles p {
+  text-align: left;
+  padding: 0% 5%;
+}
+
+.home-tiles img {
+  width: 100%;
+}
+
+.home-tiles p {
+  /* margin: 0%; */
+  font-size: larger;
+}
+
+.home-tiles a {
+  text-decoration: none;
+}
+
+.home-tiles a:hover {
+  background-color: hsla(285, 100%, 87%, 0.303);
+}
+
+/* content */
+
+h1 {
+  text-align: center;
+  font-size: 40px;
+}
+
+h1, h2 {
+  font-family: "Lato", sans-serif;
+  color: hsl(285, 100%, 28%);
+}
+
+/* name */
+
+.name {
+  text-decoration: none;
+  font-family: "Lato", sans-serif;
+  text-align: center;
+  font-size: 40px;
+  display: block;
+  font-weight: bold;
+  margin: 2% auto 3%;
+}
+
+.eman {
+  font-size: 25px;
+  text-align: left;
+  margin: 3% 0% 0%;
+  padding: 5% 0% 5% 20%;
+  background-color: hsl(285, 100%, 93%);
+}
+
+.name:link {
+  color: hsl(285, 100%, 38%);
+}
+
+/* links, selection */
+
+a:link {
+  color: hsl(285, 100%, 28%);
+}
+
+a:visited {
+  color: hsl(285, 100%, 38%);
+}
+
+::selection {
+  background-color: hsl(285, 72%, 65%);
+}

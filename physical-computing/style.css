@@ -71,3 +71,11 @@ h2 {
 .assignment p {
   margin-top: 0.5em;
 }
+
+.content {
+  margin: 2em 0 1em;
+}
+
+.content img {
+  max-width: 50%;
+}

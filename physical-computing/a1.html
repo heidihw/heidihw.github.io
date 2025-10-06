@@ -4,15 +4,76 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
 
-    <title>Example Student's HCDE 439 Physical Computing Page!</title>
+    <title>Heidi Wang's HCDE 439 Physical Computing Page</title>
 
     <link href="style.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <h1>Example Student's Assignment 1!</h1>
-    <div class="header">
-      <img src="red-panda.jpg" />
-      <p>Here is all the documentation for assignment 1!</p>
+    <h1>Heidi Wang's Assignment 1: Blink</h1>
+    <div class="content">
+      <h2>Requirements</h2>
+      <p>
+        Implement a circuit with at least 3 LEDs
+        where each LED has current limited by resistors and blinks independently.
+      </p>
+    </div>
+    <div class="content">
+      <h2>Schematic</h2>
+      <img src="a1/schematic.jpg" alt="schematic for circuit with 3 LEDs">
+    </div>
+    <div class="content">
+      <h3>Calculation</h3>
+      <img src="a1/calculation.jpg" alt="calculation for resistance needed for each LED">
+    </div>
+    <div class="content">
+      <h2>Circuit</h2>
+      <img src="a1/PXL_20251005_024254436.jpg" alt="circuit with 3 LEDs"/>
+    </div>
+    <div class="content">
+      <h2>Firmware</h2>
+      <a href="a1/Blink3.ino">link to code file</a>
+    </div>
+    <div class="content">
+      <h2>Operation</h2>
+      <img src="a1/operation.gif" alt="operation of circuit with 3 LEDs">
+    </div>
+
+    <div class="content">
+      <h2>Questions</h2>
+      <ol>
+        <!-- 1 -->
+        <li>
+          <img src="a1/graphs colorized.jpg" alt="voltage over time for circuit with 3 LEDs">
+        </li>
+        <!-- 2 -->
+        <li>
+          <p>
+            The Arduino Uno R3 has 14 digital I/O pins.
+            If each of them is connected to an LED, then 14 LEDs can be blinked independently.
+            With each LED run at 20mA, 14 LEDs would draw 280mA of current.
+          </p>
+        </li>
+        <!-- 3 -->
+        <li>
+          <p>
+            The number of LEDs on at a time does not affect how many LEDs can be blinked with this setup.
+            Thus, 14 LEDs is still the max LEDs that can be blinked consecutively.
+          </p>
+        </li>
+        <!-- 4 -->
+        <li>
+          <p>
+            It is no longer visually apparent that the LEDs are blinking
+            at around 24ms of delay between voltage changes.
+          </p>
+        </li>
+        <!-- 5 -->
+        <li>
+          <p>
+            No AI use.
+          </p>
+        </li>
+      </ol>
     </div>
   </body>
 </html>

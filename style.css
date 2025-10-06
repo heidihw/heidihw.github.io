@@ -1,103 +1,125 @@
 /* Heidi Wang 2025 04 10 Thu */
 
-body {
-  background-color: hsl(285, 100%, 95%);
-  color: hsl(285, 70%, 21%);
-  font-family: "PT Serif", serif;
-  margin: auto;
-}
-
-/* table */
-
-table {
-  width: 100%;
-  margin: 2% auto;
-}
-
-td {
-  padding: 1%;
-}
-
-/* home-tiles */
-
-.home-tiles {
-  /* margin: 0% 2%; */
-  display: flex;
-  justify-content: center;
-}
-
-.home-tiles article {
-  margin: 4%;
-}
-
-.home-tiles p {
-  text-align: left;
-  padding: 0% 5%;
-}
-
-.home-tiles img {
-  width: 100%;
-}
-
-.home-tiles p {
-  /* margin: 0%; */
-  font-size: larger;
-}
-
-.home-tiles a {
-  text-decoration: none;
-}
-
-.home-tiles a:hover {
-  background-color: hsla(285, 100%, 87%, 0.303);
-}
-
-/* content */
-
-h1 {
-  text-align: center;
-  font-size: 40px;
-}
-
-h1, h2 {
+:root {
+  background: #fff;
+  color: #000;
   font-family: "Lato", sans-serif;
-  color: hsl(285, 100%, 28%);
+  /* font-family: "Avenir", sans-serif; */
+  --heading: hsl(255, 70%, 21%);
+  --link: hsl(255, 100%, 28%);
+  --visited-link: hsl(255, 100%, 38%);
+  --highlight: hsl(255, 62%, 81%);
+  --hover: hsla(255, 100%, 95%, 30%);
+  --background: hsl(255, 100%, 95%);
+  --background-mute: hsl(255, 20%, 93%);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
 }
 
 /* name */
 
 .name {
-  text-decoration: none;
   font-family: "Lato", sans-serif;
-  text-align: center;
-  font-size: 40px;
-  display: block;
   font-weight: bold;
-  margin: 2% auto 3%;
+  font-size: 32px;
+  text-decoration: none;
 }
 
-.eman {
-  font-size: 25px;
-  text-align: left;
-  margin: 3% 0% 0%;
-  padding: 5% 0% 5% 20%;
-  background-color: hsl(285, 100%, 93%);
-}
-
-.name:link {
-  color: hsl(285, 100%, 38%);
+.name:link, .name:visited {
+  color: var(--heading);
 }
 
 /* links, selection */
 
 a:link {
-  color: hsl(285, 100%, 28%);
+  color: var(--link);
 }
 
 a:visited {
-  color: hsl(285, 100%, 38%);
+  color: var(--visited-link);
 }
 
 ::selection {
-  background-color: hsl(285, 72%, 65%);
+  background-color: var(--highlight);
+}
+
+/* header footer */
+
+header {
+  background-color: var(--background);
+  padding: 3vh 0 3vh 20vw;
+  display: block;
+}
+
+footer {
+  background-color: var(--background-mute);
+  padding: 6vh 0 6vh 20vw;
+  display: flex;
+}
+
+.contact {
+  padding: 0 0 0 30vw;
+}
+
+.contact p {
+  padding: 0 0 0.75vh;
+}
+
+.contact a {
+  font-weight: bold;
+  text-decoration: none;
+}
+
+main {
+  padding: 6vh 0 16vh;
+}
+
+/* headings */
+
+h1 {
+  color: var(--heading);
+  text-align: center;
+  font-size: 40px;
+  margin: 8vh 0 2vh;
+}
+
+h2 {
+  color: var(--heading);
+}
+
+/* tiles */
+
+.tiles {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 2vh 0;
+}
+
+.tiles a {
+  text-decoration: none;
+  max-width: 30em;
+}
+
+.tiles article {
+  margin: 4%;
+}
+
+.tiles img {
+  aspect-ratio: 1;
+  object-fit: cover;
+  width: 100%;
+}
+
+.tiles p {
+  font-size: 20px;
+  text-align: left;
+  padding: 2% 5% 0;
+}
+
+.tiles a:hover {
+  background-color: var(--hover);
 }

@@ -1,21 +1,28 @@
-/* Heidi Wang 2025 04 10 Thu */
+/*
+Heidi Wang
+2025 Oct 05
+ */
 
 :root {
   background: #fff;
   color: #000;
   font-family: "Lato", sans-serif;
   /* font-family: "Avenir", sans-serif; */
-  --heading: hsl(255, 70%, 21%);
-  --link: hsl(255, 100%, 28%);
-  --visited-link: hsl(255, 100%, 38%);
-  --highlight: hsl(255, 62%, 81%);
-  --hover: hsla(255, 100%, 95%, 30%);
+
+  /* header footer colors */
   --background: hsl(255, 100%, 95%);
   --background-mute: hsl(255, 20%, 93%);
+
+  --hover: hsla(255, 100%, 95%, 30%);
+
+  --highlight: hsl(255, 62%, 81%);
+  /* --heading: hsl(255, 70%, 21%); */
+  /* --link: hsl(255, 100%, 28%); */
+  /* --visited-link: hsl(255, 100%, 38%); */
 }
 
 * {
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
   margin: 0;
 }
 
@@ -28,19 +35,20 @@
   text-decoration: none;
 }
 
-.name:link, .name:visited {
+/* .name:link, .name:visited {
   color: var(--heading);
-}
+} */
 
 /* links, selection */
 
-a:link {
-  color: var(--link);
+a:link, a:visited {
+  color: unset;
+  /* color: var(--link); */
 }
 
-a:visited {
+/* a:visited {
   color: var(--visited-link);
-}
+} */
 
 ::selection {
   background-color: var(--highlight);
@@ -73,53 +81,93 @@ footer {
   text-decoration: none;
 }
 
+/* main */
+
 main {
   padding: 6vh 0 16vh;
+}
+
+.project {
+  padding: 0 26vw;
 }
 
 /* headings */
 
 h1 {
-  color: var(--heading);
+  /* color: var(--heading); */
   text-align: center;
   font-size: 40px;
-  margin: 8vh 0 2vh;
+  margin: 1.5em 0 0.5em;
 }
 
 h2 {
-  color: var(--heading);
+  /* color: var(--heading); */
+  margin: 2em 0 0;
 }
 
-/* tiles */
+.subheading {
+  text-align: center;
+  margin: 0.5em 0;
+}
 
-.tiles {
+/* body text */
+
+.project p, .project ol, .project ul {
+  margin: 1em 0 0;
+}
+
+.project img + p {
+  margin: 2em 0 0;
+}
+
+/* images */
+
+.project img {
+  display: block;
+  margin: auto;
+  max-height: 30em;
+  max-width: 40em;
+  padding: 2em 0 0;
+}
+
+.project .logo {
+  max-height: 16em;
+}
+
+/* grid */
+
+.grid {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  padding: 2vh 0;
+  padding: 1em 6em;
 }
 
-.tiles a {
+.grid a {
   text-decoration: none;
-  max-width: 30em;
+  max-width: 24em;
 }
 
-.tiles article {
+.grid .img-link {
   margin: 4%;
 }
 
-.tiles img {
+.grid .img-link-img {
   aspect-ratio: 1;
   object-fit: cover;
   width: 100%;
 }
 
-.tiles p {
-  font-size: 20px;
-  text-align: left;
+.grid p {
+  font-size: 17px;
   padding: 2% 5% 0;
 }
 
-.tiles a:hover {
+.grid .img-link-txt {
+  font-size: 20px;
+  text-align: left;
+}
+
+.grid a:hover {
   background-color: var(--hover);
 }

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<!-- Heidi Wang 2025 04 10 Thu -->
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gotu&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <title>Heidi Wang | Surf the Sea</title>
+    <link rel="icon" href="surf-the-sea/hifi friends.png" type="image/x-icon">
+  </head>
+  <body>
+    <header>
+      <a class="name" href="index.html">Heidi Wang</a>
+    </header>
+
+    <main>
+      <section class="project">
+        <h1>Surf the Sea</h1>
+        <h2 class="subheading">Explore Seattle</h2>
+        <img src="surf-the-sea/hifi-rating.png" alt="Surf the Sea Hi-Fi Prototype">
+        <p>
+          Young adults who are newcomers to the greater Seattle area may not have a good way to find new spots to visit, whether alone or with friends, that match their interests, budget, and time that they have available in general or on a given day.
+          <br/>
+          Surf the Sea is an app that helps users find local places to explore.
+        </p>
+
+        <h2>Research Insights</h2>
+        <p>
+          To gauge what user needs my product may aim to address, I conducted user research and interviewed a potential user using a set of questions created with the research interest group. I developed 5 insights from the interview relating to motivations, pains, and goals.
+        </p>
+        <ol>
+          <li>
+            This person is an introvert who already has established friend groups.
+          </li>
+          <li>
+            This person enjoys walking and active exploration.
+          </li>
+          <li>
+            This person would rather do something than just sit down to eat or get a drink to explore.
+          </li>
+          <li>
+            This person would like to have information on benches, restrooms, water fountains, etc when finding information on a potential location to explore.
+          </li>
+          <li>
+            This person prioritizes public transportation and would do well with having more guidance for eg how to take the Link.
+          </li>
+        </ol>
+
+        <h2>Persona</h2>
+        <p>
+          I then used the insights I gained from the user research to create a user persona to use in the design process.
+        </p>
+        <img src="surf-the-sea/persona.png" alt="Surf the Sea Persona">
+
+        <h2>Journey Map</h2>
+        <p>
+          With the persona I created in mind, I mapped a user journey for that persona. It followed the user through a scenario that illustrated their current experience, in order to assess the touchpoints and emotions of the user and see where their experience could be improved.
+          <br/>
+          I created two maps, a visual map and a tabular map.
+        </p>
+        <img src="surf-the-sea/journey-graph.png" alt="Surf the Sea Journey Visual">
+        <img src="surf-the-sea/journey-table.png" alt="Surf the Sea Journey Tabular">
+
+        <h2>Design Requirements</h2>
+        <p>
+          I then developed 5 design requirements using my findings from my user research and journey map to begin ideating the features of my product.
+        </p>
+        <ol>
+          <li>
+            Allow users to add friends and view friends' visited places and ratings.
+          </li>
+          <li>
+            Display detailed and uniquely identifying data about a given place.
+          </li>
+          <li>
+            Allow users to search for places and categories of places.
+          </li>
+          <li>
+            Allow users to add and see places they've been and personal preferences.
+          </li>
+          <li>
+            Provide maps with detailed and useful public transportation information.
+          </li>
+        </ol>
+
+        <h2>Storyboards</h2>
+        <p>
+          To illustrate how my design would help users, I created 2 storyboards for 2 different experiences potential users may have with my product. They were created with different visual techniques.
+        </p>
+        <img src="surf-the-sea/storyboard-analog.jpg" alt="Surf the Sea Storyboard Analog">
+        <img src="surf-the-sea/storyboard-digital.png" alt="Surf the Sea Storyboard Digital">
+
+        <h2>Lo-Fi Prototype</h2>
+        <p>
+          With the preliminary research and ideation completed, I began prototyping. I created a lo-fi interactive prototype for the app to test my design. It consisted of 3 interactive user flows.
+        </p>
+        <ul>
+          <li>
+            Through the Visited screen, users can rate and review places they've been.
+          </li>
+          <li>
+            The Friends feature lets users see the reviews their friends have made.
+          </li>
+          <li>
+            On their Profile, users can select what types of exploration they are interested in to help them get more personalized recommendations.
+          </li>
+        </ul>
+        <img src="surf-the-sea/lofi-friends.png" alt="Surf the Sea Lo-fi Prototype">
+
+        <h2>Experience Evaluation</h2>
+        <p>
+          I conducted user testing on the lo-fi prototype with a potential user.
+        </p>
+        <p>
+          There were a few main findings from the evaluation. First, there were times when the user did not know where to interact with the screen. I realized I could style the elements so that they more clearly signify their affordances. This means that for the hi-fi prototype, buttons, dropdown menus, links, and other interactive elements should be redesigned for clarity in addition to being styled for appearance.
+        </p>
+        <p>
+          Another finding from the evaluation was that in almost every case, the screen was scrollable, but the user was unable to recognize that and instead tried to interact only with elements visible on screen load. For the next version of this prototype, a scroll bar that indicated the scrolling functionality should be implemented.
+        </p>
+        <p>
+          In general, despite those apparent issues in navigation, the user tended to give feedback that the prototype was clear and effective. The user indicated that whether blocks were intended to be images was ambiguous in places, but it did not appear to be significantly impactful.
+        </p>
+        <p>
+          Additionally, a user flow that was not tested was that of removing a rating for a place. Currently, the prototype's functionality for that task is not well defined, so that should be amended for the hi-fi prototype.
+        </p>
+
+        <h2>Hi-Fi Prototype</h2>
+        <p>
+          Using the findings from testing the lo-fi prototype through the experience evaluation, I created the hi-fi prototype. I added more cohesive styling and made the appropriate changes as informed by the user testing. These included adding a scroll bar, using color to make navigation more clear, and adding more context for users.
+        </p>
+        <img src="surf-the-sea/hifi-friends.png" alt="Surf the Sea Hi-Fi Prototype">
+
+        <h2>Reflection</h2>
+        <p>
+          This project allowed me to apply my knowledge in many of the key steps of the user design process, including conducting market research, defining user personas, ideation, storyboarding, prototyping, evaluating user experience, and iteration. I found it most difficult to define the problem scope and distinguish my design from already existing products. Overall, I gained experience with effectively presenting my ideas through visual and textual methods.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <a class="name" href="index.html">Heidi Wang</a>
+      <div class="contact">
+        <p>
+          <a href="tel:4082045399">408-204-5399</a>
+        </p>
+        <p>
+          <a href="mailto:heidiwang123@gmail.com">heidiwang123@gmail.com</a>
+        </p>
+        <p>
+          <a href="https://www.linkedin.com/in/heidihwang/">https://www.linkedin.com/in/heidihwang/</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -110,14 +110,6 @@ h2 {
   margin: 0.5em 0;
 }
 
-.project .subtitle {
-  text-align: center;
-}
-
-.project h3 {
-  margin: 1em 0 0;
-}
-
 /* body text */
 
 .project p, .project ol, .project ul {
@@ -140,6 +132,65 @@ h2 {
 
 .project .logo {
   max-height: 16em;
+}
+
+/* article */
+
+.article h1 {
+  font-size: 36px;
+}
+
+.article .subheading {
+  font-weight: unset;
+}
+
+.article .subtitle {
+  text-align: center;
+}
+
+.big-subtitle {
+  font-size: 20px;
+}
+
+.article .subtitle + .subtitle {
+  margin: unset;
+}
+
+.article .left {
+  text-align: unset;
+}
+
+.body-h1 {
+  text-align: unset;
+  font-size: 32px;
+  margin-bottom: 0;
+}
+
+.body-h1 + h2 {
+  margin: 1em 0 0;
+}
+
+h3 {
+  margin: 1em 0 0;
+}
+
+img.full {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.article .caption {
+  font-style: italic;
+  margin: 0.5em 0 2em;
+}
+
+.article .section-break {
+  text-align: center;
+  margin: 3em 0 2em;
+}
+
+th {
+  text-align: unset;
 }
 
 /* grid */

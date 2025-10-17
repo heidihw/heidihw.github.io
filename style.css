@@ -110,6 +110,14 @@ h2 {
   margin: 0.5em 0;
 }
 
+.project .subtitle {
+  text-align: center;
+}
+
+.project h3 {
+  margin: 1em 0 0;
+}
+
 /* body text */
 
 .project p, .project ol, .project ul {

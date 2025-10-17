@@ -148,24 +148,30 @@ h2 {
   max-width: 24em;
 }
 
-.grid .img-link {
+.grid article {
   margin: 4%;
 }
 
-.grid .img-link-img {
+.grid img {
   aspect-ratio: 1;
   object-fit: cover;
   width: 100%;
 }
 
-.grid p {
-  font-size: 17px;
+.grid h2 {
+  font-size: 20px;
+  text-align: left;
+  margin: unset;
   padding: 2% 5% 0;
 }
 
-.grid .img-link-txt {
-  font-size: 20px;
-  text-align: left;
+.grid .subtitle {
+  font-style: italic;
+}
+
+.grid p {
+  font-size: 17px;
+  padding: 2% 5% 0;
 }
 
 .grid a:hover {

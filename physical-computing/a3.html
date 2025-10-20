@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
+
+    <title>Heidi Wang's HCDE 439 Physical Computing Page</title>
+    <link rel="icon" href="assets/a3/circuit-square.jpg" type="image/x-icon">
+
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <h1>Heidi Wang's Assignment 3: Input Output</h1>
+    <div class="content">
+      <h2>Requirements</h2>
+      <ul>
+        <li>sensor which changes the state of an output device</li>
+        <li>output device, not a single LED</li>
+        <li>analogRead()</li>
+        <li>analogWrite()</li>
+        <li>map()</li>
+        <li>if-statement</li>
+        <li>write to Serial, not the same message as the example code</li>
+      </ul>
+    </div>
+    <div class="content">
+      <h2>Schematic</h2>
+      <img src="assets/a3/schematic.jpg" alt="schematic">
+      <p>The sensor is a photocell, with power provided by the 5V pin and analog reading through pin A5.</p>
+      <p>The output device is made up of 3 LEDs.</p>
+      <p>Each diode is wired to its own pin providing power through analog write.</p>
+      <p>The calculation below yielded the minimum resistances needed for each LED.</p>
+      <h3>Calculation</h3>
+      <p>Red and Green LEDs:</p>
+      <img src="assets/a1/calculation.jpg" alt="calculation for resistance needed for Red and Green">
+      <p>Blue LED:</p>
+      <img src="assets/a2/calculation-blue.jpg" alt="calculation for resistance needed for Blue">
+      <p>R2:</p>
+      <p>The calculation below yielded the target resistance for R2 in the voltage divider with the photocell as R1.</p>
+      <p>The photocell was measured to have a resistance of around 38 Ohms in the brightest environment
+         and around 300k Ohms in the darkest environment for its intended operating range, so the needed resistance
+         for R2 was calculated with around halfway brightness resulting in around half of voltage in as voltage out.
+      </p>
+      <img src="assets/a3/calculation.jpg" alt="calculation for resistance needed for non-sensor resistor in voltage divider">
+      <p>220 Ohm resistors were used for all 3 LED resistors.</p>
+      <ul>
+        <li>For red and green, it was the closest resistor value which exceeded the minimum of 160.</li>
+        <li>
+          For blue, the minimum was 100, but I would not use exactly 100,
+          since fluctuations could cause the necessary resistance to actually be more than 100 at times.
+          Thus 220 was the next smallest value available.
+        </li>
+      </ul>
+      <p>For the photocell, a resistor with the calculated resistance of 100k Ohms was used.</p>
+      <h2>Circuit</h2>
+      <img src="assets/a3/circuit.jpg" alt="circuit"/>
+      <h2>Firmware</h2>
+      <a href="assets/a3/Input/Input.ino">link to code file</a>
+      <pre>
+        <code>
+/*
+  Input
+
+  Built with Examples/03.Analog/AnalogInOutSerial
+
+  The 3 LEDs get brighter when the environment gets dimmer
+  and dimmer when the environment gets brighter.
+
+  The LEDs are attached to pins 9, 10, and 11.
+  The photocell is connected to 5V power and analog input through pin A5.
+
+  modified 20 Oct 2025
+  by Heidi Wang
+*/
+
+// the number of the input pin for the photocell
+const int meterPin = A5;
+// the number of the pin for the Red LED
+const int ledPinR = 11;
+// the number of the pin for the Green LED
+const int ledPinG = 10;
+// the number of the pin for the Blue LED
+const int ledPinB = 9;
+
+// the value read as input from the photocell
+int sensorValue = 0;
+// the last value of sensorValue
+int lastIn = 0;
+// the value to be written as output to the LEDs
+int outputValue = 0;
+
+// the setup function runs one time when the program is started
+void setup()
+{
+  // initialize the sensor pin as an input
+  pinMode(meterPin, INPUT);
+  // initialize the Red LED pin as an output
+  pinMode(ledPinR, OUTPUT);
+  // initialize the Green LED pin as an output
+  pinMode(ledPinG, OUTPUT);
+  // initialize the Blue LED pin as an output
+  pinMode(ledPinB, OUTPUT);
+  // begin serial communication
+  Serial.begin(9600);
+}
+
+// the loop function loops indefinitely
+void loop()
+{
+  // read the analog in value in 10bit:
+  sensorValue = analogRead(meterPin);
+  // map it from 10bit to the range of the analog out in 8bit:
+  outputValue = map(sensorValue, 0, 1023, 0, 255);
+  // write the analog out value to the output pins:
+  analogWrite(ledPinR, 255-outputValue);
+  analogWrite(ledPinG, 255-outputValue);
+  analogWrite(ledPinB, 255-outputValue);
+
+  // print the results to the serial monitor:
+  Serial.print("sensor = ");
+  Serial.print(sensorValue);
+  Serial.print("\t output = ");
+  Serial.print(outputValue);
+  // print whether the sensor value increased or decreased
+  if (sensorValue > lastIn) {
+    // sensor value increased; print message accordingly
+    Serial.println("\t +++++ brighter, less resistance, more voltage")
+  } else {
+    // sensor value decreased; print message accordingly
+    Serial.println("\t -----   dimmer, more resistance, less voltage")
+  }
+  // update lastIn to prepare for the next loop
+  lastIn = sensorValue
+
+  // wait 2 milliseconds before the next loop for the
+  // analog-to-digital converter to settle after the
+  // last reading:
+  delay(2);
+}
+        </code>
+      </pre>
+      <h2>Operation</h2>
+      <video width="600" height="338" controls autoplay muted>
+        <source src="assets/a3/operation.mp4" type="video/mp4">
+        operation
+      </video>
+      <h2>Questions</h2>
+      <ol>
+        <!-- 1 -->
+        <li>
+          <p>
+            In this voltage divider, the variable resistor is currently R1 and R2 is constant,
+            and the sensor value is inversely mapped to the output value in the firmware.
+          </p>
+          <p>
+            If the variable resistor is R2 and R1 is constant,
+            then the sensor value must be directly mapped to the output value in the firmware
+            to achieve the same behavior.
+          </p>
+          <p>For example, if Vin=5, R2=100k:</p>
+          <ul>
+            <li>If R1=5k:</li>
+            <ul>
+              <li>Vout = R2/(R1+R2)*Vin = 100k/(5k+100k)*5 = 4.76V</li>
+            </ul>
+            <li>If R1=200k:</li>
+            <ul>
+              <li>Vout = 100k/(200k+100k)*5 = 1.67V</li>
+            </ul>
+          </ul>
+          <p>However, if the values for R1 and R2 are switched, ie if R1=100k:</p>
+          <ul>
+            <li>If R2=5k:</li>
+            <ul>
+              <li>Vout = 5k/(100k+5k)*5 = 0.24V</li>
+            </ul>
+            <li>If R2=200k:</li>
+            <ul>
+              <li>Vout = 200k/(100k+200k)*5 = 3.33V</li>
+            </ul>
+          </ul>
+          <p>This shows that if the variable and constant resistors are switched,
+            then the mapping of input to output value must be inverted to achieve the same behavior.
+          </p>
+        </li>
+        <!-- 2 -->
+        <li>
+          <img src="assets/a3/graph.jpg" alt="voltage over time for voltage divider">
+        </li>
+        <!-- 3 -->
+        <li>
+          <p>
+            map() for 10bit read to 8bit write is used as map(value, 0, 1023, 0, 255).
+            16bit is 65,536, which shifted 1 down to start at 0 instead of 1 is 65,535,
+            so map() for 16bit read to 10bit write would be used as map(value, 0, 65535, 0, 1023).
+          </p>
+        </li>
+      </ol>
+    </div>
+  </body>
+</html>

@@ -21,19 +21,17 @@
         <li>digitalRead()</li>
         <li>analogWrite()</li>
       </ul>
-    </div>
-    <div class="content">
       <h2>Schematic</h2>
       <img src="assets/a2/schematic.jpg" alt="schematic for circuit with 3 LEDs and button">
       <p>Each diode and switch is wired to its own pin providing power.</p>
       <p>The 3 diodes all connect to the same ground.</p>
       <p>The calculation below yielded the minimum resistances needed.</p>
       <h3>Calculation</h3>
-      <p>Red and Green LEDs:</p>
-      <img src="assets/a1/calculation.jpg" alt="calculation for resistance needed for Red and Green">
-      <p>Blue LED:</p>
+      <h4>Red and Green LEDs:</h4>
+      <img src="assets/a1/calculation-red.jpg" alt="calculation for resistance needed for Red and Green">
+      <h4>Blue LED:</h4>
       <img src="assets/a2/calculation-blue.jpg" alt="calculation for resistance needed for Blue">
-      <p>Pushbutton:</p>
+      <h4>Pushbutton:</h4>
       <p>Pushbuttons were rated for 50mA on the datasheets (<a href="https://octopart.com">octopart</a>).</p>
       <img src="assets/a2/calculation-button.jpg" alt="calculation for resistance needed for button">
       <p>220 Ohm resistors were used for all 4 resistors across 3 different situations.</p>
@@ -53,16 +51,15 @@
       <h2>Circuit</h2>
       <img src="assets/a2/circuit.jpg" alt="circuit with 3 LEDs and button"/>
       <h2>Firmware</h2>
-      <a href="assets/a2/Fade3/Fade3.ino">link to code file</a>
-      <p>Built with the templates of Digital/Debounce and Analog/Fading.</p>
-      <p>The button toggles to fade the RGB LED in or out. All 3 LEDs are assigned the same value.</p>
+      <a href="assets/a2/Fade/Fade.ino">link to code file</a>
       <pre>
         <code>
 /*
-  Fade3
+  Fade
+
+  Built with Examples/02.Digital/Debounce and Examples/03.Analog/Fading
 
   Pushbutton toggles to fade 3 LEDs in or out.
-  Built with the templates of Digital/Debounce and Analog/Fading.
 
   The LEDs are attached to pins 9, 10, and 11.
   The pushbutton is connected to power through pin 4 and input through pin 2.

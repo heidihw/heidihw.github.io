@@ -22,8 +22,6 @@
         <li>if-statement</li>
         <li>write to Serial, not the same message as the example code</li>
       </ul>
-    </div>
-    <div class="content">
       <h2>Schematic</h2>
       <img src="assets/a3/schematic.jpg" alt="schematic">
       <p>The sensor is a photocell, with power provided by the 5V pin and analog reading through pin A5.</p>
@@ -31,17 +29,17 @@
       <p>Each diode is wired to its own pin providing power through analog write.</p>
       <p>The calculation below yielded the minimum resistances needed for each LED.</p>
       <h3>Calculation</h3>
-      <p>Red and Green LEDs:</p>
-      <img src="assets/a1/calculation.jpg" alt="calculation for resistance needed for Red and Green">
-      <p>Blue LED:</p>
+      <h4>Red and Green LEDs:</h4>
+      <img src="assets/a1/calculation-red.jpg" alt="calculation for resistance needed for Red and Green">
+      <h4>Blue LED:</h4>
       <img src="assets/a2/calculation-blue.jpg" alt="calculation for resistance needed for Blue">
-      <p>R2:</p>
+      <h4>Resistor in Voltage Divider with Photocell:</h4>
       <p>The calculation below yielded the target resistance for R2 in the voltage divider with the photocell as R1.</p>
       <p>The photocell was measured to have a resistance of around 38 Ohms in the brightest environment
          and around 300k Ohms in the darkest environment for its intended operating range, so the needed resistance
          for R2 was calculated with around halfway brightness resulting in around half of voltage in as voltage out.
       </p>
-      <img src="assets/a3/calculation.jpg" alt="calculation for resistance needed for non-sensor resistor in voltage divider">
+      <img src="assets/a3/calculation-photoresistor.jpg" alt="calculation for resistance needed for non-sensor resistor in voltage divider">
       <p>220 Ohm resistors were used for all 3 LED resistors.</p>
       <ul>
         <li>For red and green, it was the closest resistor value which exceeded the minimum of 160.</li>

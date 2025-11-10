@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
+
+    <title>Heidi Wang's HCDE 439 Physical Computing Page</title>
+    <link rel="icon" href="assets/a5/circuit.jpg" type="image/x-icon">
+
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <h1>Heidi Wang's Assignment 5: High(er) voltage and transistors</h1>
+    <div class="content">
+      <h2>Requirements</h2>
+      <ul>
+        <li>N-MOSFET transistor</li>
+        <li>input sensor that uses a library: e.g. remote control, capacitive sensing, humidity sensor</li>
+        <li>high-load output device</li>
+        <li>external power supply</li>
+        <li>analogWrite()</li>
+      <h2>Schematic</h2>
+      <img src="assets/a5/schematic.jpg" alt="schematic">
+      <p>The IR receiver is controlled with an IR remote.</p>
+      <p>Vcc is connected to a 9V DC adapter from main wall power.</p>
+      <h3>Calculations</h3>
+      <p>The 4 LEDs draw 4*1.8=7.2V of voltage out of 9V, with 1.8V drop remaining.</p>
+      <p>With a 220 Ohm resistor, the current is I=V/R=1.8/220=8.18 mA,
+        which is well below the max continuous drain current for the transistor of 37.2 A at 25 deg C.</p>
+      <h2>Circuit</h2>
+      <img src="assets/a5/circuit.jpg" alt="circuit"/>
+      <h2>Firmware</h2>
+      <a href="assets/a5/Transistors/Transistors.ino">link to code file</a>
+      <pre>
+        <code>
+/*
+  Transistors
+
+  with help from
+  https://www.circuitbasics.com/arduino-ir-remote-receiver-tutorial/
+
+  The load on the transistor is gradually activated or deavtivated
+  whenever the power button on the IR remote is pressed.
+
+  The transistor is connected to pin 10.
+  The IR receiver is connected to pin 7.
+
+  2025 November 10
+  Heidi Wang
+*/
+
+// IRremote version 2.6.0
+#include <IRremote.h>
+
+// IR receiver pin
+const int RECV_PIN = 7;
+// initialize receiver object
+IRrecv irrecv(RECV_PIN);
+// initialize results object
+decode_results results;
+// transistor load pin
+const int loadPin = 10;
+// the current state of the load pin
+int loadState = LOW;
+
+// setup function
+void setup() {
+  // begin serial comm
+  Serial.begin(9600);
+  // enable receiver
+  irrecv.enableIRIn();
+  // blinks receiver LED when receiving signal
+  irrecv.blink13(true);
+  // sets load pin as OUTPUT with auto initial value of 0
+  pinMode(loadPin, OUTPUT);
+  // turn off load for initial state
+  digitalWrite(loadPin, LOW);
+}
+
+// loop function
+void loop() {
+    // on receiving input
+    if (irrecv.decode(&results)) {
+        // print the IR code received
+        Serial.println(results.value, HEX);
+
+        //if keypad power button is pressed
+        if (results.value == 0xFFA25D) {
+          // toggle the load state
+          loadState = !loadState;
+
+          // if the new load state is HIGH, then gradually activate the load
+          if (loadState == HIGH) {
+            // fade in from min to max in increments of 5 points:
+            for (int fadeValue = 0; fadeValue <= 255; fadeValue += 5) {
+              // sets the value for the load (range from 0 to 255):
+              analogWrite(loadPin, fadeValue);
+              // wait for 30 milliseconds to see the fading effect
+              delay(30);
+            }
+          }
+          // else the new load state is LOW, then gradually deactivate the load
+          else {
+            // fade out from max to min in increments of 5 points:
+            for (int fadeValue = 255; fadeValue >= 0; fadeValue -= 5) {
+              // sets the value for the load (range from 0 to 255):
+              analogWrite(loadPin, fadeValue);
+              // wait for 30 milliseconds to see the fading effect
+              delay(30);
+            }
+          }
+        }
+
+        // reset the receiver to receive the next code
+        irrecv.resume();
+    }
+}
+        </code>
+      </pre>
+      <h2>Operation</h2>
+      <video width="600" height="338" controls autoplay muted>
+        <source src="assets/a5/operation.mp4" type="video/mp4">
+        operation
+      </video>
+      <h2>Questions</h2>
+      <ol>
+        <!-- 1 -->
+        <li>
+          <p>From the datasheet for the N-MOSFET transistor
+            <a href="https://www.diodes.com/assets/Datasheets/DMT6009LCT.pdf">https://www.diodes.com/assets/Datasheets/DMT6009LCT.pdf</a>,
+            The max current between pins 2 and 3, i.e. Drain and Source, is 37.2 A at 25 deg C.
+          </p>
+        </li>
+        <!-- 2 -->
+        <li>
+          <p>Circuit with Arduino, DC motor, flyback diode, and capacitor:</p>
+          <img src="assets/a5/schematic-flyback.jpg" alt="schematic-flyback">
+          <p>components:</p>
+          <ul>
+            <li>N-MOSFET transistor <a href="https://www.diodes.com/assets/Datasheets/DMT6009LCT.pdf">https://www.diodes.com/assets/Datasheets/DMT6009LCT.pdf</a></li>
+            <li>DC motor <a href="https://medialibrary.dana-industrial.com/wp-content/uploads/Technical-catalogue-Direct-current-motors.pdf">https://medialibrary.dana-industrial.com/wp-content/uploads/Technical-catalogue-Direct-current-motors.pdf</a></li>
+            <li>flyback diode <a href="https://octopart.com/datasheet/p6ke200arlg-littelfuse-80727603">https://octopart.com/datasheet/p6ke200arlg-littelfuse-80727603</a></li>
+            <li>capacitor <a href="https://octopart.com/datasheet/eeu-fc1h101-panasonic-39478547">https://octopart.com/datasheet/eeu-fc1h101-panasonic-39478547</a></li>
+            <li>resistor <a href="https://octopart.com/datasheet/cfr100j100r-te+connectivity-16077129">https://octopart.com/datasheet/cfr100j100r-te+connectivity-16077129</a></li>
+            <li>Arduino UNO R3 <a href="https://docs.arduino.cc/resources/datasheets/A000066-datasheet.pdf">https://docs.arduino.cc/resources/datasheets/A000066-datasheet.pdf</a></li>
+          </ul>
+        </li>
+        <!-- 3 -->
+        <li>
+          <p>
+            The datasheet for the L293D chip:
+            <a href="https://www.ti.com/product/L293DLinks">https://www.ti.com/product/L293DLinks</a>
+          </p>
+          <img src="assets/a5/schematic-l293d.jpg" alt="schematic-l293d">
+          <p>To move motor:
+            <ul>
+              <li>A and B both forward,</li>
+              <li>A and B both back,</li>
+              <li>A forward and B back,</li>
+              <li>and A back then A forward:</li>
+            </ul>
+          </p>
+          <pre>
+            <code>
+// Motor A pins
+int enA = 11;
+int in1 = 12;
+int in2 = 13;
+// Motor B pins
+int enB = 6;
+int in3 = 7;
+int in4 = 8;
+
+void setup() {
+  // Set all motor pins as OUTPUTs
+  pinMode(enA, OUTPUT);
+  pinMode(enB, OUTPUT);
+  pinMode(in1, OUTPUT);
+  pinMode(in2, OUTPUT);
+  pinMode(in3, OUTPUT);
+  pinMode(in4, OUTPUT);
+
+  // Set initial state to LOW
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, LOW);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, LOW);
+}
+
+void loop() {
+  // Set motors to HIGH speed
+  digitalWrite(enA, HIGH);
+  digitalWrite(enB, HIGH);
+
+  // A and B both forward
+  digitalWrite(in1, HIGH);
+  digitalWrite(in2, LOW);
+  digitalWrite(in3, HIGH);
+  digitalWrite(in4, LOW);
+  delay(2000);
+
+  // A and B both back
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, HIGH);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, HIGH);
+  delay(2000);
+
+  // A forward and B back
+  digitalWrite(in1, HIGH);
+  digitalWrite(in2, LOW);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, HIGH);
+  delay(2000);
+
+  // A back then A forward
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, HIGH);
+  delay(500);
+  digitalWrite(in1, HIGH);
+  digitalWrite(in2, LOW);
+  delay(2000);
+
+  // Turn off motors
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, LOW);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, LOW);
+  delay(2000);
+}
+            </code>
+          </pre>
+        </li>
+        <!-- 4 -->
+        <li>
+          <p>
+            No AI use.
+          </p>
+        </li>
+      </ol>
+    </div>
+  </body>
+</html>

@@ -72,14 +72,14 @@ function draw() {
     }
 
     // display values - uncomment for debugging
-    displayHUD(xDraw, yDraw);
+    // displayHUD(xDraw, yDraw);
   // if button is pressed
   } else {
     // set value to send to Arduino as false
     currVal = false;
 
     // display values - uncomment for debugging
-    displayHUD(-1, -1);
+    // displayHUD(-1, -1);
   }
 
   // send data out to the Arduino

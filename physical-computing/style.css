@@ -79,3 +79,7 @@ h1, h2, h3, h4 {
 .content img {
   max-width: 50%;
 }
+
+.content img, video {
+  margin: 2% 0 0.5%;
+}

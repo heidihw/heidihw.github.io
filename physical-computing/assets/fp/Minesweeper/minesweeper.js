@@ -43,21 +43,17 @@ let port, connectBtn;
 
 
 // game variables
-const n = 9, m = 9;    // [0--(n-1), 0--(m-1)] board size
-const mineTotal = 10;
+let n = 9, m = 9;        // [0--(n-1), 0--(m-1)] board size
+let mineTotal = 10;
 
-const imgSize = 50;    // size to draw each cell
-let originX;           // top left corner of top left cell
-let originY;
+let minePositions;       // {"x,y"}
+let uncovered;           // {"x,y": n}
+let flagged;             // {"x,y"}
+let minesHit;            // {"x,y"}
 
-let minePositions;     // {"x,y"}
-let uncovered;         // {"x,y": n}
-let flagged;           // {"x,y"}
-let minesHit;          // {"x,y"}
-
-let currCell;          // [x,y]
-let currCellStr;       // for set/map keys
-let currImg;           // img object
+let currCell;            // [x,y]
+let currCellStr;         // for set/map keys
+let currImg;             // img object
 
 // translated input from Arduino
 let inputAction;
@@ -66,19 +62,28 @@ let inputAction;
 let startTime, endTime;  // ms
 let started, ended;      // T/F state markers to track time
 
+// drawing variables
+let imgSize = 50;        // size to draw each cell
+let originX, originY;    // top left corner of top left cell
+
+let borderW, borderH, borderX, borderY;
+let faceW, faceX, faceY;
+let HUDBGW, HUDBGH, flagBGX, HUDBGY, HUDFontSize, flagTextX, HUDTextY;
+let                 timeBGX,                      timeTextX;
 
 // assets
 // images for:
-let img = [];         // uncovered cells with n adjacent mines
+let img = [];            // uncovered cells with n adjacent mines
 let imgCovered;
 // let imgMine;          // mines the player didn't flag are marked after loss
-let imgMineHit;       // red bg
+let imgMineHit;          // red bg
 let imgFlagged;
-// let imgFlaggedWrong;  // non-mines the player flagged are marked after loss
-let imgBG;            // the border with the HUD sections
+// let imgFlaggedWrong;            // non-mines the player flagged are marked after loss
+let imgBGBeg, imgBGInt, imgBGExp;  // scaled for each difficulty
+let imgBG;                         // the border with the HUD sections
 // status faces; mousehold used for "winning" after already losing
 let imgFacePlaying, imgFaceWin, imgFaceLose, imgFaceMouseHold;
-let HUDFont;          // 7-segment display bold font
+let HUDFont;                       // 7-segment display bold font
 
 
 /**
@@ -101,7 +106,9 @@ function preload() {
   imgMineHit = loadImage('assets/minesweeper_11_mine_hit.jpg');
   imgFlagged = loadImage('assets/minesweeper_12_flag.jpg');
   // imgFlaggedWrong = loadImage('assets/minesweeper_13_flag_not.jpg');
-  imgBG = loadImage('assets/bg.png');
+  imgBGBeg = loadImage('assets/bg_beg.png');
+  imgBGInt = loadImage('assets/bg_int.png');
+  imgBGExp = loadImage('assets/bg_exp.png');
   imgFacePlaying = loadImage('assets/face_playing.jpg');
   imgFaceWin = loadImage('assets/face_win.jpg');
   imgFaceLose = loadImage('assets/face_lose.jpg');
@@ -124,12 +131,104 @@ function setup() {
   // Create the canvas
   createCanvas(windowWidth, windowHeight);
 
-  // draw background
-  background(192, 192, 192);
+  createSizingButtons();
 
-  originX = (windowWidth - imgSize * n) / 2;
+  setupBeg();
+}
+
+function createSizingButtons() {
+  // Beginner
+  begBtn = createButton("Beginner");
+  begBtn.position(5, 55);
+  begBtn.mouseClicked(setupBeg);
+
+  // Intermediate
+  intBtn = createButton("Intermediate");
+  intBtn.position(5, 80);
+  intBtn.mouseClicked(setupInt);
+
+  // Expert
+  expBtn = createButton("Expert");
+  expBtn.position(5, 105);
+  expBtn.mouseClicked(setupExp);
+}
+
+function setupBeg() {
+  n = 9, m = 9, mineTotal = 10;  // [0--(n-1), 0--(m-1)] board size
+
+  imgSize = 50;  // size to draw each cell
+
+  originX = (windowWidth - imgSize * n) / 2;           // top left corner of top left cell
   originY = (windowHeight - imgSize * m) / 2 + 7 * m;
+
+  imgBG = imgBGBeg;
+  borderW = imgSize * n * 1.165;
+  borderH = imgSize * m * 1.45;
+  borderX = originX - imgSize * 0.72;
+  borderY = originY - imgSize * 3.38;
+
+  reCalcHUDPos();
+
   setupBoard();
+}
+
+function setupMed() {
+  n = 10, m = 20, mineTotal = 35;
+}
+
+function setupInt() {
+  n = 16, m = 16, mineTotal = 40;  // [0--(n-1), 0--(m-1)] board size
+
+  imgSize = 33;  // size to draw each cell
+
+  originX = (windowWidth - imgSize * n) / 2;             // top left corner of top left cell
+  originY = (windowHeight - imgSize * m) / 2 + 2.6 * m;
+
+  imgBG = imgBGInt;
+  borderW = imgSize * n * 1.095;
+  borderH = imgSize * m * 1.254;
+  borderX = originX - imgSize * 0.74;
+  borderY = originY - imgSize * 3.35;
+
+  reCalcHUDPos();
+
+  setupBoard();
+}
+
+function setupExp() {
+  n = 30, m = 16, mineTotal = 99;  // [0--(n-1), 0--(m-1)] board size
+
+  imgSize = 33;  // size to draw each cell
+
+  originX = (windowWidth - imgSize * n) / 2;             // top left corner of top left cell
+  originY = (windowHeight - imgSize * m) / 2 + 2.6 * m;
+
+  imgBG = imgBGExp;
+  borderW = imgSize * n * 1.051;
+  borderH = imgSize * m * 1.254;
+  borderX = originX - imgSize * 0.76;
+  borderY = originY - imgSize * 3.35;
+
+  reCalcHUDPos();
+
+  setupBoard();
+}
+
+function reCalcHUDPos() {
+  faceW = imgSize * 1.496;
+  faceX = originX + (imgSize * n - faceW) / 2 + 1;
+  faceY = originY - imgSize * 2.43;
+
+  HUDBGW = imgSize * 2.4;
+  HUDBGH = imgSize * 1.4;
+  flagBGX = originX + imgSize * 0.3;
+  HUDBGY = originY - imgSize * 2.4;
+  HUDFontSize = imgSize * 0.96;
+  flagTextX = originX + imgSize * (0.3 + 2.4 / 2);
+  HUDTextY = originY - imgSize * (2.4 - 1.4 / 2);
+
+  timeBGX = originX + imgSize * (n - 0.25 - 2.4);
+  timeTextX = originX + imgSize * (n - 0.25 - 2.4 / 2);
 }
 
 /**
@@ -140,10 +239,11 @@ function setup() {
  * - resets the HUD and cursor
  */
 function setupBoard() {
+  // draw background
+  background(192, 192, 192);
+
     // draw board border
-  image(imgBG,
-    originX - imgSize * 0.72, originY - imgSize * 3.38,
-    imgSize * n * 1.165, imgSize * m * 1.45);
+  image(imgBG, borderX, borderY, borderW, borderH);
 
   // draw board cells
   for (let i = 0; i < n; i++) {
@@ -176,7 +276,7 @@ function setupBoard() {
   drawTime();
 
   // starts the cursor in the middle of the board
-  currCell = [int(n / 2), int(n / 2)];  // [4,4]
+  currCell = [int(n / 2), int(m / 2)];  // [4,4] for Beg
   currCellStr = currCell[0] + ',' + currCell[1];
   currImg = imgCovered;
   drawCursor();
@@ -198,25 +298,25 @@ function draw() {
   receiveData();
 
   // process Arduino inputs
-  if (inputAction == 'restart') {
+  if (inputAction == 82) {  // r
     setupBoard();
   }
-  if (inputAction == 'dig') {
+  if (inputAction == 69) {  // e
     dig();
   }
-  if (inputAction == 'flag') {
+  if (inputAction == 70) {  // f
     flag();
   }
-  if (inputAction == 'up') {
+  if (inputAction == 87) {  // w
     moveCursor('y', -1);
   }
-  if (inputAction == 'left') {
+  if (inputAction == 65) {  // a
     moveCursor('x', -1);
   }
-  if (inputAction == 'down') {
+  if (inputAction == 83) {  // s
     moveCursor('y', 1);
   }
-  if (inputAction == 'right') {
+  if (inputAction == 68) {  // d
     moveCursor('x', 1);
   }
 
@@ -229,29 +329,29 @@ function draw() {
 
 /**
  * called on keypress
- * calls the same functions as in draw
- * but for the corresponding keyboard inputs
+ * calls the same functions as in draw but for the
+ * corresponding keyboard inputs
  */
 function keyPressed() {
-  if (key === 'r') {
+  if (keyCode === 82) {  // r
     setupBoard();
   }
-  if (key === 'e') {
+  if (keyCode === 69) {  // e
     dig();
   }
-  if (key === 'f') {
+  if (keyCode === 70) {  // f
     flag();
   }
-  if (keyCode === UP_ARROW || key === 'w') {
+  if (keyCode === 38 || keyCode === 87) {  // UP_ARROW || w
     moveCursor('y', -1);
   }
-  if (keyCode === LEFT_ARROW || key === 'a') {
+  if (keyCode === 37 || keyCode === 65) {  // LEFT_ARROW || a
     moveCursor('x', -1);
   }
-  if (keyCode === DOWN_ARROW || key === 's') {
+  if (keyCode === 40 || keyCode === 83) {  // DOWN_ARROW || s
     moveCursor('y', 1);
   }
-  if (keyCode === RIGHT_ARROW || key === 'd') {
+  if (keyCode === 39 || keyCode === 68) {  // RIGHT_ARROW || d
     moveCursor('x', 1);
   }
 }
@@ -284,7 +384,6 @@ function dig() {
     } else {
       uncoverBlob([currCell]);
       drawCursor();
-      console.log(uncovered.size, minesHit.size, n * m - mineTotal);
       if (uncovered.size == n * m - mineTotal) {
         if (!minesHit.size) {
           drawFace(imgFaceWin);
@@ -294,7 +393,6 @@ function dig() {
         }
       }
     }
-    console.log();
   }
   if (!started) {
     startTime = millis();
@@ -468,11 +566,10 @@ function cellY(cell) {
  * @param {p5.Image} img - the smiley to draw
  */
 function drawFace(img) {
-  image(img, originX + imgSize * 3.78, originY - imgSize * 2.43,
-    imgSize * 1.496, imgSize * 1.496);
-  // noStroke();
+  image(img, faceX, faceY, faceW, faceW);
   // fill('green');
-  // square(,,);
+  // noStroke();
+  // square(faceX, faceY, faceW);
 }
 
 /**
@@ -481,15 +578,14 @@ function drawFace(img) {
 function drawFlagCt() {
   // bg
   fill('black');
+  // fill('green');
   noStroke();
-  rect(originX + imgSize * 0.3, originY - imgSize * 2.4,
-    imgSize * 2.4, imgSize * 1.4);
+  rect(flagBGX, HUDBGY, HUDBGW, HUDBGH);
   // value
   fill('red');
-  textFont(HUDFont, 48);
+  textFont(HUDFont, HUDFontSize);
   textAlign(CENTER, CENTER);
-  text(String(max(0, mineTotal - flagged.size)).padStart(3, '0'),
-    originX + imgSize * (0.3 + 2.4 / 2), originY - imgSize * (2.4 - 1.4 / 2));
+  text(String(max(0, mineTotal - flagged.size)).padStart(3, '0'), flagTextX, HUDTextY);
 }
 
 /**
@@ -498,15 +594,14 @@ function drawFlagCt() {
 function drawTime() {
   // bg
   fill('black');
+  // fill('green');
   noStroke();
-  rect(originX + imgSize * (n - 0.25 - 2.4), originY - imgSize * 2.4,
-    imgSize * 2.4, imgSize * 1.4);
+  rect(timeBGX, HUDBGY, HUDBGW, HUDBGH);
   // value
   fill('red');
-  textFont(HUDFont, 48);
+  textFont(HUDFont, HUDFontSize);
   textAlign(CENTER, CENTER);
-  text(String(min(999, int(endTime/1000))).padStart(3, '0'),
-    originX + imgSize * (n - 0.25 - 2.4 / 2), originY - imgSize * (2.4 - 1.4 / 2));
+  text(String(min(999, int(endTime/1000))).padStart(3, '0'), timeTextX, HUDTextY);
 }
 
 /**
@@ -530,15 +625,15 @@ function receiveData() {
 
   // Trim the whitespace (the newline) and convert the string to a number.
   let inputRead = Number(str.trim());
-  // Translate the reading into a meaningful string.
+  // Translate the reading into the keycode for the corresponding input.
   let actions = new Map();
-  actions.set(0xFF629D, 'up');
-  actions.set(0xFF22DD, 'left');
-  actions.set(0xFF02FD, 'down');
-  actions.set(0xFFC23D, 'right');
-  actions.set(0xFFE01F, 'dig');
-  actions.set(0xFFA857, 'flag');
-  actions.set(0xFF906F, 'restart');
+  actions.set(0xFF629D, 82);
+  actions.set(0xFF22DD, 69);
+  actions.set(0xFF02FD, 70);
+  actions.set(0xFFC23D, 87);
+  actions.set(0xFFE01F, 65);
+  actions.set(0xFFA857, 83);
+  actions.set(0xFF906F, 68);
   actions.set(0xFFFFFF, undefined);
   inputAction = actions.get(inputRead);
 }

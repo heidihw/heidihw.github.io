@@ -131,26 +131,73 @@ function setup() {
   // Create the canvas
   createCanvas(windowWidth, windowHeight);
 
+  createPlayButtons();
+
   createSizingButtons();
 
   setupBeg();
 }
 
+function createPlayButtons() {
+  rBtn = createButton("R");
+  rBtn.position(92, 55);
+  rBtn.mouseClicked(setupBoard);
+
+  rBtn = createButton("E");
+  rBtn.position(63, 55);
+  rBtn.mouseClicked(dig);
+
+  rBtn = createButton("F");
+  rBtn.position(92, 80);
+  rBtn.mouseClicked(flag);
+
+  rBtn = createButton("W");
+  rBtn.position(34, 55);
+  rBtn.mouseClicked(() => {moveCursor('y', -1)});
+
+  rBtn = createButton("A");
+  rBtn.position(5, 80);
+  rBtn.mouseClicked(() => {moveCursor('x', -1)});
+
+  rBtn = createButton("S");
+  rBtn.position(34, 80);
+  rBtn.mouseClicked(() => {moveCursor('y', 1)});
+
+  rBtn = createButton("D");
+  rBtn.position(63, 80);
+  rBtn.mouseClicked(() => {moveCursor('x', 1)});
+}
+
 function createSizingButtons() {
   // Beginner
   begBtn = createButton("Beginner");
-  begBtn.position(5, 55);
+  begBtn.position(5, 155);
   begBtn.mouseClicked(setupBeg);
 
   // Intermediate
   intBtn = createButton("Intermediate");
-  intBtn.position(5, 80);
+  intBtn.position(5, 180);
   intBtn.mouseClicked(setupInt);
 
   // Expert
   expBtn = createButton("Expert");
-  expBtn.position(5, 105);
+  expBtn.position(5, 205);
   expBtn.mouseClicked(setupExp);
+
+  // // Easy
+  // easBtn = createButton("Easy");
+  // easBtn.position(5, 255);
+  // easBtn.mouseClicked(setupEas);
+
+  // // Medium
+  // medBtn = createButton("Medium");
+  // medBtn.position(5, 280);
+  // medBtn.mouseClicked(setupMed);
+
+  // // Hard
+  // harBtn = createButton("Hard");
+  // harBtn.position(5, 305);
+  // harBtn.mouseClicked(setupHar);
 }
 
 function setupBeg() {
@@ -170,10 +217,6 @@ function setupBeg() {
   reCalcHUDPos();
 
   setupBoard();
-}
-
-function setupMed() {
-  n = 10, m = 20, mineTotal = 35;
 }
 
 function setupInt() {
@@ -214,6 +257,18 @@ function setupExp() {
   setupBoard();
 }
 
+// function setupEas() {
+//   n = 6, m = 13, mineTotal = 10;
+// }
+
+// function setupMed() {
+//   n = 10, m = 20, mineTotal = 35;
+// }
+
+// function setupHar() {
+//   n = 13, m = 27, mineTotal = 75;
+// }
+
 function reCalcHUDPos() {
   faceW = imgSize * 1.496;
   faceX = originX + (imgSize * n - faceW) / 2 + 1;
@@ -242,7 +297,16 @@ function setupBoard() {
   // draw background
   background(192, 192, 192);
 
-    // draw board border
+  // draw button text
+  noStroke();
+  fill('black');
+  textFont('Arial', 16);
+  textAlign(LEFT, BOTTOM);
+  text("Button Controls", 5, 50);
+  text("Minesweeper Options", 5, 150);
+  // text("Google Play Options", 5, 250);
+
+  // draw board border
   image(imgBG, borderX, borderY, borderW, borderH);
 
   // draw board cells

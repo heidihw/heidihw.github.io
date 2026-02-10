@@ -71,6 +71,14 @@ let faceW, faceX, faceY;
 let HUDBGW, HUDBGH, flagBGX, HUDBGY, HUDFontSize, flagTextX, HUDTextY;
 let                 timeBGX,                      timeTextX;
 
+// colors 0=bg, 1-8, 9= white for edge in light, 10= yellow for face
+let mscolors = [
+  [192],
+  [0,0,255], [0,128,0],   [255,0,0], [0,0,128],
+  [128,0,0], [0,128,128], [0],       [128],
+  [255],     [255,255,0]
+];
+
 // assets
 // images for:
 let img = [];            // uncovered cells with n adjacent mines
@@ -139,71 +147,138 @@ function setup() {
 }
 
 function createPlayButtons() {
-  rBtn = createButton("R");
-  rBtn.position(92, 55);
-  rBtn.mouseClicked(setupBoard);
+  btn = createButton("R");
+  if (windowWidth < 800) {
+    btn.elt.style.padding = '5px 7px';
+    btn.position(250, 40);
+  } else {
+    btn.position(96, 59);
+  }
+  btn.mouseClicked(setupBoard);
 
-  rBtn = createButton("E");
-  rBtn.position(63, 55);
-  rBtn.mouseClicked(dig);
+  btn = createButton("E");
+  if (windowWidth < 800) {
+    btn.elt.style.padding = '5px 7px';
+    btn.position(215, 40);
+  } else {
+    btn.position(67, 59);
+  }
+  btn.mouseClicked(dig);
 
-  rBtn = createButton("F");
-  rBtn.position(92, 80);
-  rBtn.mouseClicked(flag);
+  btn = createButton("F");
+  if (windowWidth < 800) {
+    btn.elt.style.padding = '5px 7px';
+    btn.position(250, 75);
+  } else {
+    btn.position(96, 84);
+  }
+  btn.mouseClicked(flag);
 
-  rBtn = createButton("W");
-  rBtn.position(34, 55);
-  rBtn.mouseClicked(() => {moveCursor('y', -1)});
+  btn = createButton("W");
+  if (windowWidth < 800) {
+    btn.elt.style.padding = '5px 7px';
+    btn.position(180, 40);
+  } else {
+    btn.position(38, 59);
+  }
+  btn.mouseClicked(() => {moveCursor('y', -1)});
 
-  rBtn = createButton("A");
-  rBtn.position(5, 80);
-  rBtn.mouseClicked(() => {moveCursor('x', -1)});
+  btn = createButton("A");
+  if (windowWidth < 800) {
+    btn.elt.style.padding = '5px 7px';
+    btn.position(145, 75);
+  } else {
+    btn.position(9, 84);
+  }
+  btn.mouseClicked(() => {moveCursor('x', -1)});
 
-  rBtn = createButton("S");
-  rBtn.position(34, 80);
-  rBtn.mouseClicked(() => {moveCursor('y', 1)});
+  btn = createButton("S");
+  if (windowWidth < 800) {
+    btn.elt.style.padding = '5px 7px';
+    btn.position(180, 75);
+  } else {
+    btn.position(38, 84);
+  }
+  btn.mouseClicked(() => {moveCursor('y', 1)});
 
-  rBtn = createButton("D");
-  rBtn.position(63, 80);
-  rBtn.mouseClicked(() => {moveCursor('x', 1)});
+  btn = createButton("D");
+  if (windowWidth < 800) {
+    btn.elt.style.padding = '5px 7px';
+    btn.position(215, 75);
+  } else {
+    btn.position(67, 84);
+  }
+  btn.mouseClicked(() => {moveCursor('x', 1)});
 }
 
 function createSizingButtons() {
   // Beginner
-  begBtn = createButton("Beginner");
-  begBtn.position(5, 155);
-  begBtn.mouseClicked(setupBeg);
+  btn = createButton("Beginner");
+  if (windowWidth < 800) {
+    btn.elt.style.padding = '5px 7px';
+    btn.position(285, 40);
+  } else {
+    btn.position(9, 159);
+  }
+  btn.mouseClicked(setupBeg);
 
   // Intermediate
-  intBtn = createButton("Intermediate");
-  intBtn.position(5, 180);
-  intBtn.mouseClicked(setupInt);
+  btn = createButton("Intermediate");
+  if (windowWidth < 800) {
+    btn.elt.style.padding = '5px 7px';
+    btn.position(285, 75);
+  } else {
+    btn.position(9, 184);
+  }
+  btn.mouseClicked(setupInt);
 
   // Expert
-  expBtn = createButton("Expert");
-  expBtn.position(5, 205);
-  expBtn.mouseClicked(setupExp);
+  btn = createButton("Expert");
+  if (windowWidth < 800) {
+    btn.elt.style.padding = '5px 7px';
+    btn.position(285, 110);
+  } else {
+    btn.position(9, 209);
+  }
+  btn.mouseClicked(setupExp);
 
-  // // Easy
-  // easBtn = createButton("Easy");
-  // easBtn.position(5, 255);
-  // easBtn.mouseClicked(setupEas);
+  // Google Play
 
-  // // Medium
-  // medBtn = createButton("Medium");
-  // medBtn.position(5, 280);
-  // medBtn.mouseClicked(setupMed);
+  // Easy
+  btn = createButton("Easy");
+  if (windowWidth < 800) {
+    btn.elt.style.padding = '5px 7px';
+    btn.position(445, 40);
+  } else {
+    btn.position(9, 259);
+  }
+  btn.mouseClicked(setupEas);
 
-  // // Hard
-  // harBtn = createButton("Hard");
-  // harBtn.position(5, 305);
-  // harBtn.mouseClicked(setupHar);
+  // Medium
+  btn = createButton("Medium");
+  if (windowWidth < 800) {
+    btn.elt.style.padding = '5px 7px';
+    btn.position(445, 75);
+  } else {
+    btn.position(9, 284);
+  }
+  btn.mouseClicked(setupMed);
+
+  // Hard
+  btn = createButton("Hard");
+  if (windowWidth < 800) {
+    btn.elt.style.padding = '5px 7px';
+    btn.position(445, 110);
+  } else {
+    btn.position(9, 309);
+  }
+  btn.mouseClicked(setupHar);
 }
 
 function setupBeg() {
   n = 9, m = 9, mineTotal = 10;  // [0--(n-1), 0--(m-1)] board size
 
-  imgSize = 50;  // size to draw each cell
+  imgSize = 50*((windowWidth*windowHeight)/(1536*695));  // size to draw each cell
 
   originX = (windowWidth - imgSize * n) / 2;           // top left corner of top left cell
   originY = (windowHeight - imgSize * m) / 2 + 7 * m;
@@ -222,7 +297,7 @@ function setupBeg() {
 function setupInt() {
   n = 16, m = 16, mineTotal = 40;  // [0--(n-1), 0--(m-1)] board size
 
-  imgSize = 33;  // size to draw each cell
+  imgSize = 33*((windowWidth*windowHeight)/(1536*695));  // size to draw each cell
 
   originX = (windowWidth - imgSize * n) / 2;             // top left corner of top left cell
   originY = (windowHeight - imgSize * m) / 2 + 2.6 * m;
@@ -241,7 +316,7 @@ function setupInt() {
 function setupExp() {
   n = 30, m = 16, mineTotal = 99;  // [0--(n-1), 0--(m-1)] board size
 
-  imgSize = 33;  // size to draw each cell
+  imgSize = 33*((windowWidth*windowHeight)/(1536*695));  // size to draw each cell
 
   originX = (windowWidth - imgSize * n) / 2;             // top left corner of top left cell
   originY = (windowHeight - imgSize * m) / 2 + 2.6 * m;
@@ -257,17 +332,17 @@ function setupExp() {
   setupBoard();
 }
 
-// function setupEas() {
-//   n = 6, m = 13, mineTotal = 10;
-// }
+function setupEas() {
+  n = 6, m = 13, mineTotal = 10;
+}
 
-// function setupMed() {
-//   n = 10, m = 20, mineTotal = 35;
-// }
+function setupMed() {
+  n = 10, m = 20, mineTotal = 35;
+}
 
-// function setupHar() {
-//   n = 13, m = 27, mineTotal = 75;
-// }
+function setupHar() {
+  n = 13, m = 27, mineTotal = 75;
+}
 
 function reCalcHUDPos() {
   faceW = imgSize * 1.496;
@@ -295,24 +370,42 @@ function reCalcHUDPos() {
  */
 function setupBoard() {
   // draw background
-  background(192, 192, 192);
+  background(192);
 
+  stroke('black');
+  strokeWeight(1);
+  // strokeJoin(MITER);
+  fill(192);
+  // draw buttons background
+  if (windowWidth < 800) {
+    drawOuterEdges(0, 0, 602, 151, 4);
+  } else {
+    drawOuterEdges(0, 0, 174, 342, 4);
+  }
   // draw button text
   noStroke();
   fill('black');
   textFont('Arial', 16);
   textAlign(LEFT, BOTTOM);
-  text("Button Controls", 5, 50);
-  text("Minesweeper Options", 5, 150);
-  // text("Google Play Options", 5, 250);
+  if (windowWidth < 800) {
+    text("Button Controls", 145, 30);
+    text("Minesweeper Options", 285, 30);
+    text("Google Play Options", 445, 30);
+  } else {
+    text("Button Controls", 9, 54);
+    text("Minesweeper Options", 9, 154);
+    text("Google Play Options", 9, 254);
+  }
 
   // draw board border
   image(imgBG, borderX, borderY, borderW, borderH);
+  // drawBorder();
 
   // draw board cells
   for (let i = 0; i < n; i++) {
     for (let j = 0; j < m; j++) {
       drawCell([i,j], imgCovered);
+      // drawCovered([i, j]);
     }
   }
 
@@ -603,7 +696,7 @@ function drawCursor() {
   noFill();
   stroke('yellow');
   strokeWeight(4);
-  strokeJoin(MITER);
+  // strokeJoin(MITER);
   square(cellX(currCell) + 2, cellY(currCell) + 2, imgSize - 4);
 }
 
@@ -668,6 +761,64 @@ function drawTime() {
   text(String(min(999, int(endTime/1000))).padStart(3, '0'), timeTextX, HUDTextY);
 }
 
+function drawBorder() {
+  let d1 = 10;
+  drawOuterEdges(borderX, borderY, borderW, borderH, d1);
+  drawInnerEdges(originX, originY, imgSize * n, imgSize * m, d1);
+  drawInnerEdges(originX, HUDBGY - (flagBGX - originX), imgSize * n, HUDBGH + (flagBGX - originX) * 2, d1);
+  let d2 = 4;
+  drawInnerEdges(flagBGX, HUDBGY, HUDBGW, HUDBGH, d2);
+  drawInnerEdges(timeBGX, HUDBGY, HUDBGW, HUDBGH, d2);
+  let d3 = 2;
+  drawInnerEdges(faceX, faceY, faceW, faceW, d3);
+  let x = faceX, y = faceY, w = faceW, h = faceW, d = d3;
+  fill(mscolors[8]);
+  quad(x-d, y+h+d, x+w+d, y+h+d, x+w, y+h, x, y+h);  // bottom
+  quad(x+w+d, y-d, x+w+d, y+h+d, x+w, y+h, x+w, y);  // right
+}
+
+function drawCovered(cell) {
+  drawOuterEdges(cellX(cell), cellY(cell), imgSize, imgSize, 6);
+}
+
+function drawUnflag(cell) {
+  fill(mscolors[0]);
+  noStroke();
+  let x = cellX(cell), y = cellY(cell), w = imgSize, h = imgSize, d = 6;
+  quad(x+d, y+d, x+w-d, y+d, x+w-d, y+h-d, x+d, y+h-d);
+}
+
+function drawOuterEdges(x, y, w, h, d) {
+  noStroke();
+
+  fill(mscolors[9]);
+  // fill('green');
+  quad(x, y, x+w, y, x+w-d, y+d, x+d, y+d);  // top
+  quad(x, y, x, y+h, x+d, y+h-d, x+d, y+d);  // left
+
+  fill(mscolors[8]);
+  // fill('green');
+  quad(x, y+h, x+w, y+h, x+w-d, y+h-d, x+d, y+h-d);  // bottom
+  quad(x+w, y, x+w, y+h, x+w-d, y+h-d, x+w-d, y+d);  // right
+}
+
+function drawInnerEdges(x, y, w, h, d) {
+  noStroke();
+
+  fill(mscolors[8]);
+  // fill('green');
+  quad(x-d, y-d, x+w+d, y-d, x+w, y, x, y);  // top
+  quad(x-d, y-d, x-d, y+h+d, x, y+h, x, y);  // left
+
+  fill(mscolors[9]);
+  // fill('green');
+  quad(x-d, y+h+d, x+w+d, y+h+d, x+w, y+h, x, y+h);  // bottom
+  quad(x+w+d, y-d, x+w+d, y+h+d, x+w, y+h, x+w, y);  // right
+}
+
+function drawInterior(x, y, w, h, d) {
+}
+
 /**
  * Receive data over serial from your Arduino
  * We're terminating data with a newline character here
@@ -717,7 +868,10 @@ function setupSerial() {
   // Create a connect button
   connectBtn = createButton("Connect to Arduino");
   // Position the button in the top left of the screen.
-  connectBtn.position(5, 5);
+  if (windowWidth < 800) {
+    connectBtn.elt.style.padding = '5px 7px';
+  }
+  connectBtn.position(9, 9);
   // When the button is clicked, run the onConnectButtonClicked function
   connectBtn.mouseClicked(onConnectButtonClicked);
 }

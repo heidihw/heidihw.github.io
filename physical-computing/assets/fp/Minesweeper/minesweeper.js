@@ -332,16 +332,18 @@ function setupExp() {
   setupBoard();
 }
 
+// Google Play
+
 function setupEas() {
-  n = 6, m = 13, mineTotal = 10;
+  // n = 6, m = 13, mineTotal = 10;
 }
 
 function setupMed() {
-  n = 10, m = 20, mineTotal = 35;
+  // n = 10, m = 20, mineTotal = 35;
 }
 
 function setupHar() {
-  n = 13, m = 27, mineTotal = 75;
+  // n = 13, m = 27, mineTotal = 75;
 }
 
 function reCalcHUDPos() {
@@ -550,10 +552,35 @@ function dig() {
         }
       }
     }
+  } else if (uncovered.has(currCellStr)) {
+    let adjMines = 0;
+    for (let i = currCell[0]-1; i <= currCell[0]+1; i++) {
+      for (let j = currCell[1]-1; j <= currCell[1]+1; j++) {
+        if (flagged.has(i + ',' + j) || minesHit.has(i + ',' + j)) {
+          adjMines++;
+        }
+      }
+    }
+    if (adjMines == countAdjacentMines(currCell)[1]) {
+      uncoverAdjacent(currCell);
+      drawCursor();
+    }
   }
   if (!started) {
     startTime = millis();
     started = true;
+  }
+}
+
+function uncoverAdjacent(k) {
+  for (let i = k[0]-1; i <= k[0]+1; i++) {
+    for (let j = k[1]-1; j <= k[1]+1; j++) {
+      let ijStr = i + ',' + j;
+      if (!(i < 0 || j < 0 || i >= n || j >= m ||
+        uncovered.has(ijStr) || flagged.has(ijStr) || minesHit.has(ijStr))) {
+        uncoverBlob([[i,j]]);
+      }
+    }
   }
 }
 
@@ -896,7 +923,7 @@ function onConnectButtonClicked() {
     // If the port is not opened, we open it
     port.open(BAUD_RATE);
   } else {
-    // Otherwise, we close it!
+    // Otherwise, we close it
     port.close();
   }
 }

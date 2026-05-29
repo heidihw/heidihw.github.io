@@ -10,12 +10,23 @@ Heidi Wang
   /* font-family: "Avenir", sans-serif; */
 
   /* header footer colors */
-  --background: hsl(255, 100%, 95%);
-  --background-mute: hsl(255, 20%, 93%);
+  --background: hsl(255, 20%, 100%);
+  /* #fff */
+  /* --background: hsl(255, 100%, 95%); */
+  --background-mute: hsl(255, 20%, 95%);
+  /* #eee */
+  /* --background-mute: hsl(255, 20%, 93%); */
 
-  --hover: hsla(255, 100%, 95%, 30%);
+  --hover: hsla(255, 20%, 95%, 30%);
+  /* --hover: hsla(255, 100%, 95%, 30%); */
 
-  --highlight: hsl(255, 62%, 81%);
+  --img-outline: hsl(255, 20%, 86%);
+  /* #bbb */
+  /* --img-outline: hsl(255, 100%, 86%); */
+
+  --highlight: hsl(255, 20%, 81%);
+  /* #bbb */
+  /* --highlight: hsl(255, 62%, 81%); */
   /* --heading: hsl(255, 70%, 21%); */
   /* --link: hsl(255, 100%, 28%); */
   /* --visited-link: hsl(255, 100%, 38%); */
@@ -29,7 +40,7 @@ Heidi Wang
 /* name */
 
 .name {
-  font-family: "Lato", sans-serif;
+  /* font-family: "Lato", sans-serif; */
   font-weight: bold;
   font-size: 32px;
   text-decoration: none;
@@ -54,14 +65,23 @@ a:link, a:visited {
   background-color: var(--highlight);
 }
 
+p {
+  font-size: 18px;
+  line-height: 24px;
+}
+
 /* header footer */
 
 header {
   background-color: var(--background);
-  padding: 3vh 0 3vh 20vw;
-  display: block;
-  position: sticky;
+  padding: 3vh 0 3vh 5vw;
+  /* display: block;
+  position: sticky; */
   top: 0;
+}
+
+.header-icon {
+  max-width: 2vw;
 }
 
 footer {
@@ -75,7 +95,7 @@ footer {
 }
 
 .contact p {
-  padding: 0 0 0.75vh;
+  padding: 0 0 0.3em;
 }
 
 .contact a {
@@ -83,14 +103,30 @@ footer {
   text-decoration: none;
 }
 
+/* bio */
+
+.bio {
+  display: flex;
+}
+
+.headshot {
+  max-height: 40vh;
+  padding: 2em 2em 2em 20vw;
+}
+
+.blurb {
+  /* text-align: center; */
+  padding: 2em 20vw 2em 2em;
+}
+
 /* main */
 
 main {
-  padding: 6vh 0 16vh;
+  padding: 0 6em 16vh;
 }
 
 .project {
-  padding: 0 26vw;
+  padding: 0 20vw;
 }
 
 /* headings */
@@ -99,12 +135,16 @@ h1 {
   /* color: var(--heading); */
   text-align: center;
   font-size: 40px;
-  margin: 1.5em 0 0.5em;
+  margin: 1em 0 0.5em;
 }
 
 h2 {
   /* color: var(--heading); */
   margin: 2em 0 0;
+}
+
+p.subheading {
+  margin: 0.5em 0 2em;
 }
 
 .subheading {
@@ -137,10 +177,14 @@ h2 {
 }
 
 img.white-bg {
-  border: 1px solid #c8b6ff;
+  border: 1px solid var(--img-outline);
 }
 
 /* article */
+
+.article p {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
 
 .article h1 {
   font-size: 36px;
@@ -152,9 +196,11 @@ img.white-bg {
 
 .article .subtitle {
   text-align: center;
+  font-size: 16px;
+  line-height: 16px;
 }
 
-.big-subtitle {
+.article .big-subtitle {
   font-size: 20px;
 }
 
@@ -222,7 +268,7 @@ a.multi-link:hover {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  padding: 1em 6em;
+  padding: 1em 0;
 }
 
 .grid a {
